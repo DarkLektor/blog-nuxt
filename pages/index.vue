@@ -22,7 +22,6 @@
             v-for="post in posts"
             :key="post.id + post.title"
             :post="post"
-
         />
       </div>
       <UiPagination

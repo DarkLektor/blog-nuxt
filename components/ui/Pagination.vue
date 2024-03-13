@@ -1,5 +1,6 @@
 <template>
-  <div class="w-100 d-flex justify-content-between">
+  <div
+      class="w-100 d-flex justify-content-between align-items-center flex-sm-row flex-column-reverse gap-2">
     <select
         v-if="totalCount > 12"
         class="form-select w-auto"

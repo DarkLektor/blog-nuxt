@@ -10,15 +10,11 @@ function toStringValue(value: string | LocationQueryValue[] | LocationQueryValue
 }
 
 export function usePosts(showToast: (err: string) => void) {
-    // const searchQuery = ref('');
-    // const sortBy = ref('title');
-    // const sortDirection = ref('asc');
-    // const page = ref(1);
-    // const limit = ref(12);
-
     const {debounce} = useDebounce();
     const route = useRoute();
     const router = useRouter();
+    const config = useRuntimeConfig();
+    const baseUrl = config.public.baseUrl;
 
     const posts = ref<PostType[]>([]);
     const loading = ref(false);
@@ -56,8 +52,8 @@ export function usePosts(showToast: (err: string) => void) {
         router.replace({query});
     }, {deep: true});
 
+
     async function fetchPosts() {
-        const config = useRuntimeConfig();
         loading.value = true;
 
         const queryParams = new URLSearchParams({
@@ -69,7 +65,7 @@ export function usePosts(showToast: (err: string) => void) {
         }).toString();
 
         try {
-            const response = await fetch(`${config.public.baseUrl}posts?${queryParams}`)
+            const response = await fetch(`${baseUrl}posts?${queryParams}`)
             totalCount.value = +(response.headers.get('X-Total-Count') || 0);
             posts.value = await response.json();
         } catch (err: Error | any) {
