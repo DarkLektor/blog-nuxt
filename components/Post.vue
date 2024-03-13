@@ -5,7 +5,7 @@
       <p class="card-text">
         {{ props.post.body }}
       </p>
-      <nuxt-link :to="`/post/${props.post.id}`" class="card-link mt-auto ms-auto">
+      <nuxt-link :to="`/post/${props.post.id}`" class="card-link link-dark mt-auto ms-auto">
         Go to post
       </nuxt-link>
     </div>

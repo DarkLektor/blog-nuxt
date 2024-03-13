@@ -20,11 +20,9 @@ const {debounce} = useDebounce();
 const router = useRouter();
 
 function performSearch() {
-  searchTerm.value ?
-      router.push({path: '', query: {q: searchTerm.value}}).catch(err => {
-      }) :
-      router.push({path: ''}).catch(err => {
-      });
+  searchTerm.value?.trim() ?
+      router.replace({query: {q: searchTerm.value.trim()}}) :
+      router.push({query: {}})
 }
 
 const debouncedSearch = () => debounce(performSearch, 500);

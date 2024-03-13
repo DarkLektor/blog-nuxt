@@ -1,10 +1,12 @@
 <template>
   <div class="posts container py-4 d-flex flex-column justify-content-start align-items-start">
-    <h1 class="mb-4">Posts</h1>
-    <select v-model="sortDirection" @change="applyFilters">
-      <option value="asc">По возрастанию</option>
-      <option value="desc">По убыванию</option>
-    </select>
+    <div class="d-flex justify-content-between align-items-center mb-4 w-100">
+      <h1>Posts</h1>
+
+      <select v-model="filters.sortDirection" class="form-select w-auto">
+        <option value="asc">Sort by ascending</option>
+        <option value="desc">Sort by descending</option>
+      </select></div>
 
     <div v-if="error">{{ error }}</div>
 
@@ -24,11 +26,10 @@
         />
       </div>
       <UiPagination
-          v-if="totalCount > limit"
-          :page="page"
-          @update:page="onPageChange($event)"
+          :page="filters.page"
+          @updatePageAndLimit="onPageChange($event)"
           :total-count="totalCount"
-          :limit="limit"
+          :limit="filters.limit"
       />
     </template>
 
@@ -43,30 +44,14 @@ const {
   posts,
   loading,
   error,
-  fetchPosts,
-  page,
   totalCount,
-  limit
+  filters
 } = usePosts(showToast as (message: string) => void);
 
-onMounted(() => fetchPosts(
-    queries.value.page ? Number(queries.value.page) : undefined,
-    queries.value.limit ? Number(queries.value.limit) : undefined)
-);
-
-const route = useRoute();
-const router = useRouter();
-const queries = computed(() => route.query);
-
-watch(queries, ({page, limit}) => {
-  fetchPosts(
-      page ? Number(page) : undefined,
-      limit ? Number(limit) : undefined
-  )
-});
 
 const onPageChange = ({page, limit}: { page: number, limit: number }) => {
-  router.replace({query: {page, limit}});
+  filters.page = page;
+  filters.limit = limit;
 }
 </script>
 
