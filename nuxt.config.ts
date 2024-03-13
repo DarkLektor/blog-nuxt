@@ -9,5 +9,9 @@ export default defineNuxtConfig({
     },
     plugins: [
         {src: '~/plugins/toast.ts', mode: 'client'}
-    ]
+    ],
+    app: {
+        basePath: '/blog-nuxt/',
+        assetsPath: '/blog-nuxt/_nuxt/',
+    },
 })
