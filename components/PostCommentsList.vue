@@ -36,7 +36,7 @@
 import {ref} from "vue";
 
 const observerElement = ref<HTMLElement | null>(null);
-const {comments, loading, loadComments} = useComments(4, observerElement);
+const {comments, loading} = useComments(4, observerElement);
 </script>
 
 <style scoped>

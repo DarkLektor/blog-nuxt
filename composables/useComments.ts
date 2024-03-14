@@ -2,6 +2,7 @@ import {onMounted, onUnmounted, ref, watch} from 'vue';
 import type {CommentType} from '~/types/comment.type';
 import {useDebounce} from '~/composables/useDebounce';
 import {useRoute} from "vue-router";
+import {toStringValue} from "~/utils/locationQueryTostring";
 
 export function useComments(limit = 4, observerElement: Ref<HTMLElement | null>) {
     const comments = ref<CommentType[]>([]);
@@ -15,7 +16,7 @@ export function useComments(limit = 4, observerElement: Ref<HTMLElement | null>)
     const baseUrl = config.public.baseUrl;
 
     watch(() => route.query.q, (newQuery) => {
-        searchQuery.value = newQuery?.trim() || '';
+        searchQuery.value = toStringValue(newQuery)?.trim() || '';
         page.value = 1;
         comments.value = [];
         allCommentsLoaded.value = false;
@@ -33,7 +34,7 @@ export function useComments(limit = 4, observerElement: Ref<HTMLElement | null>)
         }).toString();
 
         try {
-            const response = await fetch<CommentType[]>(`${baseUrl}/comments?${queryParams}`);
+            const response = await fetch(`${baseUrl}/comments?${queryParams}`);
             const data = await response.json()
             if (data?.length < limit) {
                 allCommentsLoaded.value = true;

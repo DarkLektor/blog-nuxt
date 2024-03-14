@@ -68,9 +68,9 @@
 import {computed} from 'vue';
 
 const props = defineProps({
-  page: Number,
-  totalCount: Number,
-  limit: Number
+  page: {type: Number, required: true},
+  totalCount: {type: Number, required: true},
+  limit: {type: Number, required: true}
 });
 
 const totalPages = computed(() => Math.ceil(props.totalCount / props.limit));
@@ -104,7 +104,7 @@ const goToPage = (pageNum: number) => {
 }
 
 const onLimitChange = (event: Event) => {
-  emit('updatePageAndLimit', {page: props.page, limit: +event.target.value});
+  emit('updatePageAndLimit', {page: props.page, limit: +(event.target as HTMLInputElement).value});
 }
 </script>
 

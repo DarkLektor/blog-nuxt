@@ -1,13 +1,7 @@
 import type {PostType} from "~/types/post.type";
-import type {LocationQueryValue} from "vue-router";
 import {useDebounce} from "~/composables/useDebounce";
+import {toStringValue} from "~/utils/locationQueryTostring";
 
-function toStringValue(value: string | LocationQueryValue[] | LocationQueryValue | undefined): string {
-    if (Array.isArray(value)) {
-        return value[0] || '';
-    }
-    return value || '';
-}
 
 export function usePosts(showToast: (err: string) => void) {
     const {debounce} = useDebounce();
